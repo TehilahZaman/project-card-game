@@ -1,110 +1,84 @@
 /*-------------------------------- Constants --------------------------------*/
-const deck = [];
-// const royalCards = 10
 
 /*-------------------------------- Variables --------------------------------*/
-let playerHand;
-let dealerHand;
-let playerSum;
-let dealerSum;
-let dealtCard;
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
+let winner;
 let turn;
-
-// Declare variables
-let deck1 = [];
-let deck2 = [];
-let cardToRemove;
-
+let message;
+let tie;
 /*------------------------ Cached Element References ------------------------*/
-const hitMe = document.querySelector("#hit-button");
-const stand = document.querySelector("#stand-button");
-const newGame = document.querySelector("#new-game-button");
-
-// Cached element references
-let deck1El = document.querySelector("#deck-1");
-let deck2El = document.querySelector("#deck-2");
-
+let hitmeBtn = document.querySelector(".hitme-button");
+let standBtn = document.querySelector(".stand-button");
 /*-------------------------------- Functions --------------------------------*/
-const newDeck = () => {
-    //when all the cards in the deck are delt, a new deck of is added
-    // calls shuffle to randomiz ethe cards
+function winMessage() {
+  if ((winner = true)) {
+    message = "Congratualtions player! You Win with ${playerSum}!";
+  } else if (tie === true) {
+    message = "It's a tie! With ${layerSum} points!";
+  } else if (winner === false) {
+    message = "Player you loose.";
+  }
 }
 
-const standFunc = () => {
-    //called when stand is clicked
-    //stores the value of the hand
-    //      of whoevers turn it is
-    //calls checkhand function
+function checkWin(playerSum, dealerSum) {
+  if (playerSum === 21) {
+    winner = true;
+  } else if (playerSum > 21) {
+    winner = false;
+  } else {
+    return;
+  }
+  if (dealerSum === 21) {
+    winner = false;
+  } else if (dealerSum > 21) {
+    winner = true;
+  } else if (playerSum === dealerSum) {
+    tie === true;
+  } else {
+    deal();
+  }
 }
 
-const handSumValue = () => {
-    //called at the end of a turn
-    // so when player hit stand
-    // or when dealer hits corret conditions
-    // value of cards if >= 17, and less tha n21, and greater than the players hand \
-    // add the value of a dealt card to the hand sum
-    // calls checkhand function
+function dealerTurn() {
+  //changeName?
+  //Element.classList.remove('back-blue');
+  turn = false;
+  deal();
 }
 
- const shuffle = () => {
-    // randomizes teh cards in the deck
+function addHand(newCard) {
+  let playerSum = playerHand.reduce(function (acc, newCard) {
+    return acc + newCard;
+  }, 0);
+  let dealerSum = dealerHand.reduce(function (acc, newCard) {
+    return acc + newCard;
+  }, 0);
+  checkWin(playerSum, dealerSum);
+  console.log(playerSum);
+  console.log(dealerSum);
+}
+function pushNewCard(newCard) {
+  if (turn === true) {
+    playerHand.push(newCard);
+    console.log(playerHand, "<-player hand");
+  } else if (turn === false) {
+    dealerHand.push(newCard);
+    console.log(dealerHand, "<-dealer hand");
+  }
+  addHand(newCard);
 }
 
-const gameOutcomeMessage = () => {
-    // sets a message for each possible game outcome
+function deal() {
+  let randomIdx = Math.floor(Math.random() * deck.length);
+  let newCard = deck.splice(randomIdx, 1)[0];
+  pushNewCard(newCard);
+  return newCard;
 }
 
-const aceRule = () => {
-    // sets the value of an ace card to 11
-    // unless the hand is bust
-    // then ace equals 1
-}
-
-const checkHand = () => {
-    // checks sum of hands against each other
-    //runs through win logic to determin win/loss/tie
-// If sum > 21, bust
-// If sum = 21, win
-// Greater sum wins
-}
-
-const deal = () => {
-    //called when the player clicks hit
-    // and when player clicks new game
-    //deals a card to whoever turn it is from the deck
-    // removes a card from teh deck
-    // calls function that adds card value to sum
-}
-
-const initialize = () => {
-    playerSum = null;
-    dealerSum = null;
-    // gives the player and dealer 2 new cards each
-}
-
-//functions
-const render = (cardPicked) => {
-  // Remove outline class when first card is picked
-  // Removes previously picked card from deck 2 class list
-  // Add current card picked to deck 2 element
-  // Adjust shadow when deck gets above/below halfway full
-  // Remove card back color and add outline when last card is picked
-};
-
-
-// Function to handle a button click:
-const handleClick = () => {
-  // Randomly select number from total cards remaining
-  // Assign card with the random index to a variable
-  // Add card picked to deck 2
-  // Pass card picked to render function to display
-};
-
-// initialization function: rn just starts the game with a full deck
-// this probs won't work in my newgame button bc in blackjack you keep going until deck is used up
-// alt option: have new cards button or restart button
-const init = () => {
-  deck1 = [
+function initiate() {
+  deck = [
     "dA",
     "dQ",
     "dK",
@@ -158,22 +132,11 @@ const init = () => {
     "s03",
     "s02",
   ];
-};
-//make sure to invoke:
-init();
-
+  playerHand = [];
+  dealerHand = [];
+  turn = true;
+}
+initiate();
 /*----------------------------- Event Listeners -----------------------------*/
-hitMe.addEventListener("click", () => {
-  console.log(`button has been clicked`);
-});
-stand.addEventListener("click", () => {
-  console.log(`button has been clicked`);
-});
-newGame.addEventListener("click", () => {
-  console.log(`button has been clicked`);
-});
-
-// Event listeners
-document
-  .querySelector("#btn")
-  .addEventListener("click", () => handleClick);
+hitmeBtn.addEventListener("click", deal);
+standBtn.addEventListener("click", dealerTurn);

@@ -24,20 +24,32 @@ let standBtn = document.querySelector(".stand-button");
 //   }
 // }
 
+// function gameStop(winner) {
+//   if (winner === true || winner === false) {
+//     return;
+//   } else if (playerSum === dealerSum) {
+//     tie === true;
+//   }
+// }
+
 function checkWin(playerSum, dealerSum) {
   if (turn === true) {
     if (playerSum > 21) {
-      winner = false;
-    } else if (playerSum === 21 && !playerSum > 21) {
+      winner === false;
+    } else if (playerSum < 22 && playerSum === 21) {
       winner = true;
     } else {
       return;
     }
   }
+  // if (turn === false) {
+  //   if (dealerSum <= 17) {
+  //     dealer17Logic();
+  //   }
+  // }
+  // if (dealerSum > 17)
   if (turn === false) {
-    if (dealerSum < 17) {
-      deal();
-    } else if (dealerSum === 21) {
+    if (dealerSum === 21) {
       winner = false;
     } else if (dealerSum > 21) {
       winner = true;
@@ -47,22 +59,22 @@ function checkWin(playerSum, dealerSum) {
       winner = false;
     }
   }
-  //else if (playerSum === dealerSum) {
-  //   tie === true;
-  // }
   //winMessage(winner);
+  //gameStop(winner);
   console.log(winner, "<- winner stat");
 }
-// function dealerPlayLogic() {
-//   if (dealerHand < 17) {
-//     return dealerTurn();
-//   } else if (dealerHand > 21) {
-//     winner = true;
-//     console.log(winner, "<- dealer lost)");
-//   }
+function dealer17Logic(dealerSum) {
+  if (turn === false && dealerSum <= 17) {
+    deal();
+  } else {
+    checkWin();
+  }
+}
+// function dealer17Logic(dealerSum) {
+//   deal();
 // }
 
-function dealerTurn() {
+function dealerTurn(dealerSum) {
   //changeName?
   //Element.classList.remove('back-blue');
   turn = false;
@@ -77,6 +89,7 @@ function addHand(playerHandValue, dealerHandValue) {
     return acc + newValue;
   }, 0);
   checkWin(playerSum, dealerSum);
+  dealer17Logic(dealerSum);
   console.log(playerSum, "<- player sum");
   console.log(dealerSum, "<- dealer sum");
 }

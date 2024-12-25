@@ -262,3 +262,12 @@ function deal(event) {
   }
   addHand(newCard);
 }
+
+  let playerSum = playerHand.value.reduce(function (acc, newCardValue) {
+    return acc + newCardValue;
+  }, 0);
+  let dealerSum = dealerHand.reduce(function (acc, newCardValue) {
+    return acc + newCardValue;
+  }, 0);
+
+   let playerSum = playerHand.value + ${ newCardValue };

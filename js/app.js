@@ -8,38 +8,59 @@ let winner;
 let turn;
 let message;
 let tie;
+let playerHandValue = [];
+let dealerHandValue = [];
 /*------------------------ Cached Element References ------------------------*/
 let hitmeBtn = document.querySelector(".hitme-button");
 let standBtn = document.querySelector(".stand-button");
 /*-------------------------------- Functions --------------------------------*/
-function winMessage() {
-  if ((winner = true)) {
-    message = "Congratualtions player! You Win with ${playerSum}!";
-  } else if (tie === true) {
-    message = "It's a tie! With ${layerSum} points!";
-  } else if (winner === false) {
-    message = "Player you loose.";
-  }
-}
+// function winMessage() {
+//   if ((winner = true)) {
+//     console.log("Congratualtions player! You Win with ${playerSum}!");
+//   } else if (tie === true) {
+//     console.log("It's a tie! With ${playerSum} points!");
+//   } else if (winner === false) {
+//     console.log("Player you loose.");
+//   }
+// }
 
 function checkWin(playerSum, dealerSum) {
-  if (playerSum === 21) {
-    winner = true;
-  } else if (playerSum > 21) {
-    winner = false;
-  } else {
-    return;
+  if (turn === true) {
+    if (playerSum > 21) {
+      winner = false;
+    } else if (playerSum === 21 && !playerSum > 21) {
+      winner = true;
+    } else {
+      return;
+    }
   }
-  if (dealerSum === 21) {
-    winner = false;
-  } else if (dealerSum > 21) {
-    winner = true;
-  } else if (playerSum === dealerSum) {
-    tie === true;
-  } else {
-    deal();
+  if (turn === false) {
+    if (dealerSum < 17) {
+      deal();
+    } else if (dealerSum === 21) {
+      winner = false;
+    } else if (dealerSum > 21) {
+      winner = true;
+    } else if (dealerSum > 17 && dealerSum < playerSum) {
+      winner = true;
+    } else if (dealerSum > playerSum) {
+      winner = false;
+    }
   }
+  //else if (playerSum === dealerSum) {
+  //   tie === true;
+  // }
+  //winMessage(winner);
+  console.log(winner, "<- winner stat");
 }
+// function dealerPlayLogic() {
+//   if (dealerHand < 17) {
+//     return dealerTurn();
+//   } else if (dealerHand > 21) {
+//     winner = true;
+//     console.log(winner, "<- dealer lost)");
+//   }
+// }
 
 function dealerTurn() {
   //changeName?
@@ -48,17 +69,29 @@ function dealerTurn() {
   deal();
 }
 
-function addHand(newCard) {
-  let playerSum = playerHand.reduce(function (acc, newCard) {
-    return acc + newCard;
+function addHand(playerHandValue, dealerHandValue) {
+  let playerSum = playerHandValue.reduce(function (acc, newValue) {
+    return acc + newValue;
   }, 0);
-  let dealerSum = dealerHand.reduce(function (acc, newCard) {
-    return acc + newCard;
+  let dealerSum = dealerHandValue.reduce(function (acc, newValue) {
+    return acc + newValue;
   }, 0);
   checkWin(playerSum, dealerSum);
-  console.log(playerSum);
-  console.log(dealerSum);
+  console.log(playerSum, "<- player sum");
+  console.log(dealerSum, "<- dealer sum");
 }
+
+function pushNewCardValaue(newCardValue) {
+  if (turn === true) {
+    playerHandValue.push(newCardValue);
+    console.log(playerHandValue, "<-player hand value");
+  } else if (turn === false) {
+    dealerHandValue.push(newCardValue);
+    console.log(dealerHandValue, "<-dealer hand value");
+  }
+  addHand(playerHandValue, dealerHandValue);
+}
+
 function pushNewCard(newCard) {
   if (turn === true) {
     playerHand.push(newCard);
@@ -67,14 +100,21 @@ function pushNewCard(newCard) {
     dealerHand.push(newCard);
     console.log(dealerHand, "<-dealer hand");
   }
-  addHand(newCard);
 }
 
 function deal() {
+  if (winner === true) {
+    return;
+  }
   let randomIdx = Math.floor(Math.random() * deck.length);
-  let newCard = deck.splice(randomIdx, 1)[0].card;
+  let newCardObj = deck.splice(randomIdx, 1)[0];
+  let newCard = newCardObj.card;
+  let newCardValue = newCardObj.value;
   pushNewCard(newCard);
-  return newCard;
+  pushNewCardValaue(newCardValue);
+  //console.log(newCardObj);
+  //console.log(newCard, newCardValue, "card + value");
+  return newCardObj, newCard, newCardValue;
 }
 
 function initiate() {
@@ -135,7 +175,7 @@ function initiate() {
   playerHand = [];
   dealerHand = [];
   turn = true;
-  console.log(deal.length);
+  // console.log(deal.length);
 }
 initiate();
 /*----------------------------- Event Listeners -----------------------------*/

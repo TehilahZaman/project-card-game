@@ -13,6 +13,9 @@ let dealerHandValue = [];
 /*------------------------ Cached Element References ------------------------*/
 let hitmeBtn = document.querySelector(".hitme-button");
 let standBtn = document.querySelector(".stand-button");
+let playerHandEl = document.querySelector("#player-hand");
+let dealerHandEl = document.querySelector("#dealer-hand");
+let dealerSecCard = document.querySelector("#dealer-second-card");
 /*-------------------------------- Functions --------------------------------*/
 // function winMessage() {
 //   if ((winner = true)) {
@@ -73,12 +76,31 @@ function dealer17Logic(dealerSum) {
 // function dealer17Logic(dealerSum) {
 //   deal();
 // }
+function renderDealerCard(newCard) {
+  divEl = document.createElement("div");
+  divEl.classList.add("card");
+  divEl.classList.add(newCard);
+  dealerHandEl.appendChild(divEl);
+}
+
+function flipCard() {
+  dealerSecCard.classList.remove("back-red");
+}
 
 function dealerTurn(dealerSum) {
-  //changeName?
-  //Element.classList.remove('back-blue');
   turn = false;
   deal();
+  flipCard();
+}
+function updateCard(newCard) {
+  divEl = document.createElement("div");
+  divEl.classList.add("card");
+  divEl.classList.add(newCard);
+  if (turn === true) {
+    playerHandEl.appendChild(divEl);
+  } else if (turn === false) {
+    dealerHandEl.appendChild(divEl);
+  }
 }
 
 function addHand(playerHandValue, dealerHandValue) {
@@ -94,6 +116,13 @@ function addHand(playerHandValue, dealerHandValue) {
   console.log(dealerSum, "<- dealer sum");
 }
 
+function pushTwoCards(newCard, newCardValue) {
+  dealerHand.push(newCard);
+  playerHandValue.push(newCardValue);
+  renderDealerCard(newCard);
+  console.log(dealerHand, "<- dealerHand");
+  //addHand()
+}
 function pushNewCardValaue(newCardValue) {
   if (turn === true) {
     playerHandValue.push(newCardValue);
@@ -125,6 +154,8 @@ function deal() {
   let newCardValue = newCardObj.value;
   pushNewCard(newCard);
   pushNewCardValaue(newCardValue);
+  updateCard(newCard);
+  pushTwoCards(newCard, newCardValue);
   //console.log(newCardObj);
   //console.log(newCard, newCardValue, "card + value");
   return newCardObj, newCard, newCardValue;
@@ -185,9 +216,14 @@ function initiate() {
     { card: "s03", value: 3 },
     { card: "s02", value: 2 },
   ];
-  playerHand = [];
-  dealerHand = [];
+  // playerHand = [];
+  // dealerHand = [];
   turn = true;
+  deal();
+  deal();
+  //pushTwoCards();
+  //newCard, newCardValue
+
   // console.log(deal.length);
 }
 initiate();

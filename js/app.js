@@ -338,34 +338,24 @@ function initiateDealer() {
 function newHand() {
   playerHand = [];
   dealerHand = [];
-  playerHandValue = [];
-  dealerHandValue = [];
   winMessage.innerText = "";
   winner = undefined;
   tie = undefined;
-  cardEls = document.querySelectorAll(".cardtag");
   cardEls.forEach((card) => {
     card.remove();
-    hitmeBtn.disabled = false;
-    standBtn.disabled = false;
   });
-  console.log("newhand clicked");
+  activateBtns();
   initiatePlayer();
   initiateDealer();
   initiateDealer();
+  console.log("newhand clicked");
   console.log(dealerHand, playerHand);
   console.log(winner, tie, turn);
   console.log(deck.length);
   console.log(deck);
 }
 function newGame() {
-  playerHand = [];
-  dealerHand = [];
-  playerHandValue = [];
-  dealerHandValue = [];
-  winner = undefined;
-  tie = undefined;
-  winMessage.innerText = "";
+  newHand();
   deck = [
     { card: "dA", value: 11 },
     { card: "dQ", value: 10 },
@@ -420,20 +410,7 @@ function newGame() {
     { card: "s03", value: 3 },
     { card: "s02", value: 2 },
   ];
-  cardEls = document.querySelectorAll(".cardtag");
-  cardEls.forEach((card) => {
-    card.remove();
-    hitmeBtn.disabled = false;
-    standBtn.disabled = false;
-  });
   console.log("newgame clicked");
-  initiatePlayer();
-  initiateDealer();
-  initiateDealer();
-  console.log(dealerHand, playerHand, playerHandValue, dealerHandValue);
-  console.log(winner, tie, turn);
-  console.log(deck.length);
-  console.log(deck);
 }
 initiatePlayer();
 initiateDealer();

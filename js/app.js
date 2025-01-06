@@ -4,8 +4,8 @@
 let deck = [
   { card: "dA", value: 11 },
   { card: "dQ", value: 10 },
-  { card: "dk", value: 10 },
-  { card: "dj", value: 10 },
+  { card: "dK", value: 10 },
+  { card: "dJ", value: 10 },
   { card: "d10", value: 10 },
   { card: "d09", value: 9 },
   { card: "d08", value: 8 },
@@ -17,8 +17,8 @@ let deck = [
   { card: "d02", value: 2 },
   { card: "hA", value: 11 },
   { card: "hQ", value: 10 },
-  { card: "hk", value: 10 },
-  { card: "hj", value: 10 },
+  { card: "hK", value: 10 },
+  { card: "hJ", value: 10 },
   { card: "h10", value: 10 },
   { card: "h09", value: 9 },
   { card: "h08", value: 8 },
@@ -30,8 +30,8 @@ let deck = [
   { card: "h02", value: 2 },
   { card: "cA", value: 11 },
   { card: "cQ", value: 10 },
-  { card: "ck", value: 10 },
-  { card: "cj", value: 10 },
+  { card: "cK", value: 10 },
+  { card: "cJ", value: 10 },
   { card: "c10", value: 10 },
   { card: "c09", value: 9 },
   { card: "c08", value: 8 },
@@ -43,8 +43,8 @@ let deck = [
   { card: "c02", value: 2 },
   { card: "sA", value: 11 },
   { card: "sQ", value: 10 },
-  { card: "sk", value: 10 },
-  { card: "sj", value: 10 },
+  { card: "sK", value: 10 },
+  { card: "sJ", value: 10 },
   { card: "s10", value: 10 },
   { card: "s09", value: 9 },
   { card: "s08", value: 8 },
@@ -71,10 +71,11 @@ let dealerHandEl = document.querySelector("#dealer-hand");
 let newHandBtn = document.querySelector(".newhand-button");
 let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
+let cardEls = document.querySelectorAll(".cardtag");
 /*-------------------------------- Functions --------------------------------*/
 function renderMessage(winner, tie, playerSum) {
   if (winner === true) {
-    winMessage.innterText = `Congratualtions player! You Win with ${playerSum} points!`;
+    winMessage.innerText = `Congratualtions player! You Win with ${playerSum} points!`;
   } else if (tie === true) {
     winMessage.innerText = `It's a tie! With ${playerSum} points!`;
   } else if (winner === false) {
@@ -94,8 +95,8 @@ function newDeck() {
   deck.push(
     { card: "dA", value: 11 },
     { card: "dQ", value: 10 },
-    { card: "dk", value: 10 },
-    { card: "dj", value: 10 },
+    { card: "dK", value: 10 },
+    { card: "dJ", value: 10 },
     { card: "d10", value: 10 },
     { card: "d09", value: 9 },
     { card: "d08", value: 8 },
@@ -107,8 +108,8 @@ function newDeck() {
     { card: "d02", value: 2 },
     { card: "hA", value: 11 },
     { card: "hQ", value: 10 },
-    { card: "hk", value: 10 },
-    { card: "hj", value: 10 },
+    { card: "hK", value: 10 },
+    { card: "hJ", value: 10 },
     { card: "h10", value: 10 },
     { card: "h09", value: 9 },
     { card: "h08", value: 8 },
@@ -120,8 +121,8 @@ function newDeck() {
     { card: "h02", value: 2 },
     { card: "cA", value: 11 },
     { card: "cQ", value: 10 },
-    { card: "ck", value: 10 },
-    { card: "cj", value: 10 },
+    { card: "cK", value: 10 },
+    { card: "cJ", value: 10 },
     { card: "c10", value: 10 },
     { card: "c09", value: 9 },
     { card: "c08", value: 8 },
@@ -133,8 +134,8 @@ function newDeck() {
     { card: "c02", value: 2 },
     { card: "sA", value: 11 },
     { card: "sQ", value: 10 },
-    { card: "sk", value: 10 },
-    { card: "sj", value: 10 },
+    { card: "sK", value: 10 },
+    { card: "sJ", value: 10 },
     { card: "s10", value: 10 },
     { card: "s09", value: 9 },
     { card: "s08", value: 8 },
@@ -147,52 +148,71 @@ function newDeck() {
   );
 }
 
-function aceRule(winner) {
-  if (winner === false) {
-    let aceCard = playerHandValue.indexOf(11);
-    if (aceCard !== -1) {
-      playerHandValue[aceCard] = 1;
-      winner = undefined;
-      addHand(playerHandValue, dealerHandValue);
+function activateBtns() {
+  hitmeBtn.disabled = false;
+  standBtn.disabled = false;
+}
+
+
+function aceRule(turn, winner) {
+  if (turn === true) {
+    let aceCardIdx = playerHand.findIndex((card) => card.value === 11);
+    if (aceCardIdx !== -1) {
+      playerHand[aceCardIdx].value = 1;
+      winner;
+      addHand(playerHand, dealerHand);
+      activateBtns();
+      console.log(winner, playerHand);
+    } else {
+      winner = false;
+      renderMessage(winner);
     }
-    // else {
-    //  winner = false;
-    // renderMessage(winner)
-    // }
-    return;
+  } else if (turn === false) {
+    let aceCardIdx = dealerHand.findIndex((card) => card.value === 11);
+    if (aceCardIdx !== -1) {
+      dealerHand[aceCardIdx].value = 1;
+      winner;
+      addHand(playerHand, dealerHand);
+      activateBtns();
+      console.log(winner, dealerHand);
+    } else {
+      winner = true;
+      renderMessage(winner);
+    }
   }
-  console.log(playerHandValue);
+  return winner;
 }
 
 function checkWin(playerSum, dealerSum) {
   if (turn === true) {
     if (playerSum > 21) {
-      winner = false; // this might be an issue
-      aceRule(winner);
+      aceRule(turn, winner);
     } else if (playerSum < 22 && playerSum === 21) {
-      return (winner = true);
-    } else {
-      return;
+      winner = true;
     }
     console.log(winner, "<- winner stat1");
+    renderMessage(winner);
+    return winner;
   }
   if (turn === false) {
     if (dealerSum === 21) {
-      return (winner = false);
+      winner = false;
     } else if (dealerSum > 21) {
-      return (winner = true);
+      aceRule(turn, winner)
+      winner = true; //delete me 
     } else if (dealerSum > 17 && dealerSum < playerSum) {
-      return (winner = true);
+      winner = true;
     } else if (dealerSum > playerSum) {
-      return (winner = false);
+      winner = false;
     } else if (playerSum === dealerSum) {
-      return tie === true;
+      tie === true;
     }
   }
-  gameStop(winMessage, tie);
+
+  gameStop(winner, tie);
   renderMessage(winner, tie, playerSum);
-  //gameStop(winner);
   console.log(winner, "<- winner stat2");
+  return winner;
 }
 function dealer17Logic(dealerSum) {
   if (turn === false && dealerSum <= 17) {
@@ -202,23 +222,25 @@ function dealer17Logic(dealerSum) {
   }
   return dealerSum;
 }
-function renderHiddenCard(newCard) {
+
+function renderHiddenCard(newCardObj) {
   let divEl = document.createElement("div");
   dealerHandEl.appendChild(divEl);
   divEl.classList.add("card");
-  divEl.classList.add(newCard);
+  divEl.classList.add(newCardObj.card);
   divEl.classList.add("back-red");
   divEl.classList.add("cardtag");
   divEl.id = "hidden-card";
 }
 
-function renderDealerCard(newCard) {
+function renderDealerCard(newCardObj) {
   let divEl = document.createElement("div");
   dealerHandEl.appendChild(divEl);
   divEl.classList.add("card");
-  divEl.classList.add(newCard);
+  divEl.classList.add(newCardObj.card);
   divEl.classList.add("cardtag");
 }
+
 
 function flipCard() {
   let dealerHiddenCard = document.getElementById("hidden-card");
@@ -231,67 +253,58 @@ function dealerTurn() {
   flipCard();
 }
 
-function updateCard(newCard) {
+function updateCard(newCardObj) {
+  console.log(newCardObj, "newcardobj test")
   let divEl = document.createElement("div");
   divEl.classList.add("card");
+  divEl.classList.add(newCardObj.card);
   divEl.classList.add("cardtag");
-  divEl.classList.add(newCard);
   if (turn === true) {
     playerHandEl.appendChild(divEl);
   } else if (turn === false) {
     dealerHandEl.appendChild(divEl);
   }
+  console.log(divEl);
   return divEl;
 }
 
-function addHand(playerHandValue, dealerHandValue) {
-  let playerSum = playerHandValue.reduce(function (acc, newValue) {
-    return acc + newValue;
+function addHand(playerHand, dealerHand) {
+  let playerSum = playerHand.reduce(function (sum, playerCard) {
+    return sum + playerCard.value;
   }, 0);
-  let dealerSum = dealerHandValue.reduce(function (acc, newValue) {
-    return acc + newValue;
+  let dealerSum = dealerHand.reduce(function (sum, dealerCard) {
+    return sum + dealerCard.value;
   }, 0);
   checkWin(playerSum, dealerSum);
   dealer17Logic(dealerSum);
   console.log(playerSum, "<- player sum");
   console.log(dealerSum, "<- dealer sum");
-  console.log(winner, "winner check");
+  // console.log(winner, "winner check");
   return playerSum, dealerSum;
 }
 
-function pushTwoCards(newCard, newCardValue) {
-  dealerHand.push(newCard);
-  dealerHandValue.push(newCardValue);
+function pushTwoCards(newCardObj) {
+  dealerHand.push(newCardObj);
   if (dealerHand.length === 1) {
-    renderDealerCard(newCard);
+    renderDealerCard(newCardObj);
   }
   if (dealerHand.length === 2) {
-    renderHiddenCard(newCard);
+    renderHiddenCard(newCardObj);
   }
   console.log(dealerHand, "<- dealerHand");
-  return newCard, newCardValue;
+  return newCardObj
 }
 
-function pushNewCardValaue(newCardValue) {
+function pushNewCard(newCardObj) {
   if (turn === true) {
-    playerHandValue.push(newCardValue);
-    console.log(playerHandValue, "<-player hand value");
-  } else if (turn === false) {
-    dealerHandValue.push(newCardValue);
-    console.log(dealerHandValue, "<-dealer hand value");
-  }
-  addHand(playerHandValue, dealerHandValue);
-  return playerHandValue, dealerHandValue;
-}
-
-function pushNewCard(newCard) {
-  if (turn === true) {
-    playerHand.push(newCard);
+    playerHand.push(newCardObj);
     console.log(playerHand, "<-player hand");
   } else if (turn === false) {
-    dealerHand.push(newCard);
+    dealerHand.push(newCardObj);
     console.log(dealerHand, "<-dealer hand");
   }
+  addHand(playerHand, dealerHand);
+  return playerHand, dealerHand;
 }
 
 function deal() {
@@ -303,12 +316,10 @@ function deal() {
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
-  let newCard = newCardObj.card;
-  let newCardValue = newCardObj.value;
-  pushNewCard(newCard);
-  pushNewCardValaue(newCardValue);
-  updateCard(newCard);
-  return newCardObj, newCard, newCardValue;
+  pushNewCard(newCardObj);
+  updateCard(newCardObj);
+  console.log(newCardObj);
+  return newCardObj;
 }
 
 function initiatePlayer() {
@@ -320,10 +331,8 @@ function initiatePlayer() {
 function initiateDealer() {
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
-  let newCard = newCardObj.card;
-  let newCardValue = newCardObj.value;
-  pushTwoCards(newCard, newCardValue);
-  return newCard, newCardValue;
+  pushTwoCards(newCardObj);
+  return newCardObj
 }
 
 function newHand() {
@@ -360,8 +369,8 @@ function newGame() {
   deck = [
     { card: "dA", value: 11 },
     { card: "dQ", value: 10 },
-    { card: "dk", value: 10 },
-    { card: "dj", value: 10 },
+    { card: "dK", value: 10 },
+    { card: "dJ", value: 10 },
     { card: "d10", value: 10 },
     { card: "d09", value: 9 },
     { card: "d08", value: 8 },
@@ -373,8 +382,8 @@ function newGame() {
     { card: "d02", value: 2 },
     { card: "hA", value: 11 },
     { card: "hQ", value: 10 },
-    { card: "hk", value: 10 },
-    { card: "hj", value: 10 },
+    { card: "hK", value: 10 },
+    { card: "hJ", value: 10 },
     { card: "h10", value: 10 },
     { card: "h09", value: 9 },
     { card: "h08", value: 8 },
@@ -386,8 +395,8 @@ function newGame() {
     { card: "h02", value: 2 },
     { card: "cA", value: 11 },
     { card: "cQ", value: 10 },
-    { card: "ck", value: 10 },
-    { card: "cj", value: 10 },
+    { card: "cK", value: 10 },
+    { card: "cJ", value: 10 },
     { card: "c10", value: 10 },
     { card: "c09", value: 9 },
     { card: "c08", value: 8 },
@@ -399,8 +408,8 @@ function newGame() {
     { card: "c02", value: 2 },
     { card: "sA", value: 11 },
     { card: "sQ", value: 10 },
-    { card: "sk", value: 10 },
-    { card: "sj", value: 10 },
+    { card: "sK", value: 10 },
+    { card: "sJ", value: 10 },
     { card: "s10", value: 10 },
     { card: "s09", value: 9 },
     { card: "s08", value: 8 },
@@ -435,15 +444,4 @@ standBtn.addEventListener("click", dealerTurn);
 newHandBtn.addEventListener("click", newHand);
 newGameBtn.addEventListener("click", newGame);
 
-// function aceRule() {
-//   if (winner === false) {
-//     let dAIdx = deck.find((cardObj) => cardObj.card === "dA");
-//     let hAIdx = deck.find((cardObj) => cardObj.card === "hA");
-//     let cAIdx = deck.find((cardObj) => cardObj.card === "cA");
-//     let sAIdx = deck.find((cardObj) => cardObj.card === "sA");
-//     dAIdx.value = 1;
-//     hAIdx.value = 1;
-//     cAIdx.value = 1;
-//     sAIdx.value = 1;
-//   }
-// }
+

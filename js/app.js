@@ -18,7 +18,6 @@ let dealerHandEl = document.querySelector("#dealer-hand");
 let newHandBtn = document.querySelector(".newhand-button");
 let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
-let cardEls = document.querySelectorAll(".cardtag");
 /*-------------------------------- Functions --------------------------------*/
 function renderMessage(winner, tie, playerSum) {
   if (winner === true) {
@@ -106,7 +105,7 @@ function aceRule(turn, winner) {
     if (aceCardIdx !== -1) {
       playerHand[aceCardIdx].value = 1;
       winner;
-      addHand(playerHand, dealerHand);
+      addHand(playerHand, dealerHand); // this is checking win .
       activateBtns();
       console.log(winner, playerHand);
     } else {
@@ -127,7 +126,7 @@ function aceRule(turn, winner) {
     }
   }
   return winner;
-}
+} // this function should just check for a ace and flip the value, does not need to set winner to null
 
 function checkWin(playerSum, dealerSum) {
   if (turn === true) {
@@ -160,11 +159,13 @@ function checkWin(playerSum, dealerSum) {
   console.log(winner, "<- winner stat2");
   return winner;
 }
+
 function dealer17Logic(dealerSum) {
   if (turn === false && dealerSum <= 17) {
     deal();
+    // return true;
   } else {
-    checkWin(dealerSum);
+    //return false;
   }
   return dealerSum;
 }
@@ -180,17 +181,23 @@ function dealerTurn() {
   flipCard();
 }
 
-function updateCard(newCardObj) {
+function renderCard(newCardObj) {
   console.log(newCardObj, "newcardobj test");
   let divEl = document.createElement("div");
   divEl.classList.add("card");
   divEl.classList.add(newCardObj.card);
   divEl.classList.add("cardtag");
   if (turn === true) {
-    playerHandEl.appendChild(divEl);
+    setTimeout(() => {
+      playerHandEl.appendChild(divEl);
+      addHand(playerHand, dealerHand);
+    }, 250);
   } else if (turn === false) {
-    dealerHandEl.appendChild(divEl);
-    dealerHandEl.children[1].classList.add("back-red");
+    setTimeout(() => {
+      dealerHandEl.appendChild(divEl);
+      // animation class
+      addHand(playerHand, dealerHand); // here would be checkwin in place of addHand
+    }, 400);
   } else if (turn === undefined) {
     dealerHandEl.appendChild(divEl);
     if (dealerHandEl.children.length > 1) {
@@ -199,6 +206,7 @@ function updateCard(newCardObj) {
     }
     console.log(dealerHandEl.children[1]);
   }
+  //addHand(playerHand, dealerHand);
   console.log(divEl);
   return divEl;
 }
@@ -210,11 +218,11 @@ function addHand(playerHand, dealerHand) {
   let dealerSum = dealerHand.reduce(function (sum, dealerCard) {
     return sum + dealerCard.value;
   }, 0);
-  checkWin(playerSum, dealerSum);
+  if (checkWin(playerSum, dealerSum)) return;
   dealer17Logic(dealerSum);
   console.log(playerSum, "<- player sum");
   console.log(dealerSum, "<- dealer sum");
-  return playerSum, dealerSum;
+  // return playerSum, dealerSum;
 }
 
 function pushNewCard(newCardObj) {
@@ -228,8 +236,8 @@ function pushNewCard(newCardObj) {
     dealerHand.push(newCardObj);
     console.log(dealerHand, "<-dealer hand wooo");
   }
-  addHand(playerHand, dealerHand);
-  return playerHand, dealerHand;
+  renderCard(newCardObj);
+  // return playerHand, dealerHand;
 }
 
 function deal() {
@@ -238,13 +246,13 @@ function deal() {
   }
   if (deck.length === 0) {
     newDeck();
-    console.log(deck)
+    console.log(deck);
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
 
   pushNewCard(newCardObj);
-  updateCard(newCardObj);
+  // renderCard(newCardObj);
   console.log(newCardObj);
   return newCardObj;
 }
@@ -267,12 +275,14 @@ function newHand() {
   winMessage.innerText = "";
   winner = undefined;
   tie = undefined;
+  let cardEls = document.querySelectorAll(".cardtag"); // why doesn't this work outside?
   cardEls.forEach((card) => {
     card.remove();
   });
   activateBtns();
-  initiateGame();
+  initiateDealer();
   console.log("newhand clicked");
+  console.log(cardEls);
   console.log(dealerHand, playerHand);
   console.log(winner, tie, turn);
   console.log(deck.length);

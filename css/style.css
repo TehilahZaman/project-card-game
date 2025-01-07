@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   height: 50vmax;
-} */
+}  */
 
 body {
   background-color: #194332;
@@ -74,5 +74,11 @@ button {
   padding: 0.8rem;
   border-radius: 5px;
   color: black;
-  transition: 5s
 }
+
+/* div {
+transition: 5s
+}
+.back{
+  transition: 3s
+}  */

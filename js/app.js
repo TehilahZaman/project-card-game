@@ -1,60 +1,7 @@
 /*-------------------------------- Constants --------------------------------*/
 
 /*-------------------------------- Variables --------------------------------*/
-let deck = [
-  { card: "dA", value: 11 },
-  { card: "dQ", value: 10 },
-  { card: "dK", value: 10 },
-  { card: "dJ", value: 10 },
-  { card: "d10", value: 10 },
-  { card: "d09", value: 9 },
-  { card: "d08", value: 8 },
-  { card: "d07", value: 7 },
-  { card: "d06", value: 6 },
-  { card: "d05", value: 5 },
-  { card: "d04", value: 4 },
-  { card: "d03", value: 3 },
-  { card: "d02", value: 2 },
-  { card: "hA", value: 11 },
-  { card: "hQ", value: 10 },
-  { card: "hK", value: 10 },
-  { card: "hJ", value: 10 },
-  { card: "h10", value: 10 },
-  { card: "h09", value: 9 },
-  { card: "h08", value: 8 },
-  { card: "h07", value: 7 },
-  { card: "h06", value: 6 },
-  { card: "h05", value: 5 },
-  { card: "h04", value: 4 },
-  { card: "h03", value: 3 },
-  { card: "h02", value: 2 },
-  { card: "cA", value: 11 },
-  { card: "cQ", value: 10 },
-  { card: "cK", value: 10 },
-  { card: "cJ", value: 10 },
-  { card: "c10", value: 10 },
-  { card: "c09", value: 9 },
-  { card: "c08", value: 8 },
-  { card: "c07", value: 7 },
-  { card: "c06", value: 6 },
-  { card: "c05", value: 5 },
-  { card: "c04", value: 4 },
-  { card: "c03", value: 3 },
-  { card: "c02", value: 2 },
-  { card: "sA", value: 11 },
-  { card: "sQ", value: 10 },
-  { card: "sK", value: 10 },
-  { card: "sJ", value: 10 },
-  { card: "s10", value: 10 },
-  { card: "s09", value: 9 },
-  { card: "s08", value: 8 },
-  { card: "s07", value: 7 },
-  { card: "s06", value: 6 },
-  { card: "s05", value: 5 },
-  { card: "s04", value: 4 },
-  { card: "s03", value: 3 },
-  { card: "s02", value: 2 },
-];
+let deck = [];
 let playerHand = [];
 let dealerHand = [];
 let winner;
@@ -92,7 +39,7 @@ function gameStop(winner) {
 
 function newDeck() {
   console.log("new deeeck");
-  deck.push(
+  deck = [
     { card: "dA", value: 11 },
     { card: "dQ", value: 10 },
     { card: "dK", value: 10 },
@@ -144,8 +91,8 @@ function newDeck() {
     { card: "s05", value: 5 },
     { card: "s04", value: 4 },
     { card: "s03", value: 3 },
-    { card: "s02", value: 2 }
-  );
+    { card: "s02", value: 2 },
+  ];
 }
 
 function activateBtns() {
@@ -233,7 +180,7 @@ function dealerTurn() {
   flipCard();
 }
 
-function updateCard(newCardObj, dealerHand) {
+function updateCard(newCardObj) {
   console.log(newCardObj, "newcardobj test");
   let divEl = document.createElement("div");
   divEl.classList.add("card");
@@ -291,6 +238,7 @@ function deal() {
   }
   if (deck.length === 0) {
     newDeck();
+    console.log(deck)
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
@@ -305,6 +253,7 @@ function initiateDealer() {
   turn = undefined;
   deal();
   deal();
+  initiatePlayer();
 }
 function initiatePlayer() {
   turn = true;
@@ -331,64 +280,10 @@ function newHand() {
 }
 function newGame() {
   newHand();
-  deck = [
-    { card: "dA", value: 11 },
-    { card: "dQ", value: 10 },
-    { card: "dK", value: 10 },
-    { card: "dJ", value: 10 },
-    { card: "d10", value: 10 },
-    { card: "d09", value: 9 },
-    { card: "d08", value: 8 },
-    { card: "d07", value: 7 },
-    { card: "d06", value: 6 },
-    { card: "d05", value: 5 },
-    { card: "d04", value: 4 },
-    { card: "d03", value: 3 },
-    { card: "d02", value: 2 },
-    { card: "hA", value: 11 },
-    { card: "hQ", value: 10 },
-    { card: "hK", value: 10 },
-    { card: "hJ", value: 10 },
-    { card: "h10", value: 10 },
-    { card: "h09", value: 9 },
-    { card: "h08", value: 8 },
-    { card: "h07", value: 7 },
-    { card: "h06", value: 6 },
-    { card: "h05", value: 5 },
-    { card: "h04", value: 4 },
-    { card: "h03", value: 3 },
-    { card: "h02", value: 2 },
-    { card: "cA", value: 11 },
-    { card: "cQ", value: 10 },
-    { card: "cK", value: 10 },
-    { card: "cJ", value: 10 },
-    { card: "c10", value: 10 },
-    { card: "c09", value: 9 },
-    { card: "c08", value: 8 },
-    { card: "c07", value: 7 },
-    { card: "c06", value: 6 },
-    { card: "c05", value: 5 },
-    { card: "c04", value: 4 },
-    { card: "c03", value: 3 },
-    { card: "c02", value: 2 },
-    { card: "sA", value: 11 },
-    { card: "sQ", value: 10 },
-    { card: "sK", value: 10 },
-    { card: "sJ", value: 10 },
-    { card: "s10", value: 10 },
-    { card: "s09", value: 9 },
-    { card: "s08", value: 8 },
-    { card: "s07", value: 7 },
-    { card: "s06", value: 6 },
-    { card: "s05", value: 5 },
-    { card: "s04", value: 4 },
-    { card: "s03", value: 3 },
-    { card: "s02", value: 2 },
-  ];
+  newDeck();
   console.log("newgame clicked");
 }
 
-initiatePlayer();
 initiateDealer();
 /*----------------------------- Event Listeners -----------------------------*/
 hitmeBtn.addEventListener("click", deal);
@@ -396,39 +291,42 @@ standBtn.addEventListener("click", dealerTurn);
 newHandBtn.addEventListener("click", newHand);
 newGameBtn.addEventListener("click", newGame);
 
-//----------------
+// newDeck = {
+//   suits: ["s", "k", "d", "c"],
+//   //numbers: [02, 03, ],
+//   values: [],
+// };
 
-// //try:
-
-// function pushTwoCards(newCardObj) {
-//   dealerHand.push(newCardObj);
-//   renderDealerCard(newCardObj);
-//   renderHiddenCard(newCardObj);
-//   console.log(dealerHand, "<- dealerHand");
-//   return newCardObj;
+// function otherNewDeck() {
+//   let deck = [];
+//   let card = {};
+//   let idx = Math.floor(Math.random() * 4);
+//   let index = Math.floor(Math.random() * 12);
+//   suits = ["s", "k", "d", "c"];
+//   let cards = [
+//     "02",
+//     "03",
+//     "04",
+//     "05",
+//     "06",
+//     "07",
+//     "08",
+//     "09",
+//     "10",
+//     "J",
+//     "Q",
+//     "K",
+//     "A",
+//   ];
+//   card.face = suits[idx].concat(cards[index]);
+//   card.value = index;
+//   // for (let i = 0; i < 4; i++) {
+//   //   for (let f = 0; f < 12; f++) {
+//   //   }
+//   // }
+//   deck.push(card);
+//   //console.log();
+//   console.log(card);
+//   console.log(deck);
 // }
-
-// //try:
-// function pushNewCard(newCardObj) {
-//   if (turn === true) {
-//     playerHand.push(newCardObj);
-//     console.log(playerHand, "<-player hand");
-//   } else if (turn === false) {
-//     dealerHand.push(newCardObj);
-//     console.log(dealerHand, "<-dealer hand");
-//   } else if (turn === undefined) {
-//     dealerHand.push(newCardObj);
-//     console.log(dealerHand, "<-dealer hand");
-//     pushTwoCards(newCardObj);
-//     turn = true;
-//   }
-//   addHand(playerHand, dealerHand);
-//   return playerHand, dealerHand;
-// }
-
-// function initiateGame() {
-//   deal();
-//   deal();
-//   deal();
-//   deal();
-// }
+// otherNewDeck();

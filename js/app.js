@@ -153,7 +153,6 @@ function activateBtns() {
   standBtn.disabled = false;
 }
 
-
 function aceRule(turn, winner) {
   if (turn === true) {
     let aceCardIdx = playerHand.findIndex((card) => card.value === 11);
@@ -198,8 +197,8 @@ function checkWin(playerSum, dealerSum) {
     if (dealerSum === 21) {
       winner = false;
     } else if (dealerSum > 21) {
-      aceRule(turn, winner)
-      winner = true; //delete me 
+      aceRule(turn, winner);
+      winner = true; //delete me
     } else if (dealerSum > 17 && dealerSum < playerSum) {
       winner = true;
     } else if (dealerSum > playerSum) {
@@ -223,25 +222,6 @@ function dealer17Logic(dealerSum) {
   return dealerSum;
 }
 
-function renderHiddenCard(newCardObj) {
-  let divEl = document.createElement("div");
-  dealerHandEl.appendChild(divEl);
-  divEl.classList.add("card");
-  divEl.classList.add(newCardObj.card);
-  divEl.classList.add("back-red");
-  divEl.classList.add("cardtag");
-  divEl.id = "hidden-card";
-}
-
-function renderDealerCard(newCardObj) {
-  let divEl = document.createElement("div");
-  dealerHandEl.appendChild(divEl);
-  divEl.classList.add("card");
-  divEl.classList.add(newCardObj.card);
-  divEl.classList.add("cardtag");
-}
-
-
 function flipCard() {
   let dealerHiddenCard = document.getElementById("hidden-card");
   dealerHiddenCard.classList.remove("back-red");
@@ -253,8 +233,8 @@ function dealerTurn() {
   flipCard();
 }
 
-function updateCard(newCardObj) {
-  console.log(newCardObj, "newcardobj test")
+function updateCard(newCardObj, dealerHand) {
+  console.log(newCardObj, "newcardobj test");
   let divEl = document.createElement("div");
   divEl.classList.add("card");
   divEl.classList.add(newCardObj.card);
@@ -263,6 +243,14 @@ function updateCard(newCardObj) {
     playerHandEl.appendChild(divEl);
   } else if (turn === false) {
     dealerHandEl.appendChild(divEl);
+    dealerHandEl.children[1].classList.add("back-red");
+  } else if (turn === undefined) {
+    dealerHandEl.appendChild(divEl);
+    if (dealerHandEl.children.length > 1) {
+      dealerHandEl.children[1].classList.add("back-red");
+      dealerHandEl.children[1].id = "hidden-card";
+    }
+    console.log(dealerHandEl.children[1]);
   }
   console.log(divEl);
   return divEl;
@@ -279,29 +267,19 @@ function addHand(playerHand, dealerHand) {
   dealer17Logic(dealerSum);
   console.log(playerSum, "<- player sum");
   console.log(dealerSum, "<- dealer sum");
-  // console.log(winner, "winner check");
   return playerSum, dealerSum;
-}
-
-function pushTwoCards(newCardObj) {
-  dealerHand.push(newCardObj);
-  if (dealerHand.length === 1) {
-    renderDealerCard(newCardObj);
-  }
-  if (dealerHand.length === 2) {
-    renderHiddenCard(newCardObj);
-  }
-  console.log(dealerHand, "<- dealerHand");
-  return newCardObj
 }
 
 function pushNewCard(newCardObj) {
   if (turn === true) {
     playerHand.push(newCardObj);
-    console.log(playerHand, "<-player hand");
+    console.log(playerHand, "<-player hand wooo");
   } else if (turn === false) {
     dealerHand.push(newCardObj);
-    console.log(dealerHand, "<-dealer hand");
+    console.log(dealerHand, "<-dealer hand shooo");
+  } else if (turn === undefined) {
+    dealerHand.push(newCardObj);
+    console.log(dealerHand, "<-dealer hand wooo");
   }
   addHand(playerHand, dealerHand);
   return playerHand, dealerHand;
@@ -316,23 +294,22 @@ function deal() {
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
+
   pushNewCard(newCardObj);
   updateCard(newCardObj);
   console.log(newCardObj);
   return newCardObj;
 }
 
+function initiateDealer() {
+  turn = undefined;
+  deal();
+  deal();
+}
 function initiatePlayer() {
   turn = true;
   deal();
   deal();
-}
-
-function initiateDealer() {
-  let randomIdx = Math.floor(Math.random() * deck.length);
-  let newCardObj = deck.splice(randomIdx, 1)[0];
-  pushTwoCards(newCardObj);
-  return newCardObj
 }
 
 function newHand() {
@@ -345,9 +322,7 @@ function newHand() {
     card.remove();
   });
   activateBtns();
-  initiatePlayer();
-  initiateDealer();
-  initiateDealer();
+  initiateGame();
   console.log("newhand clicked");
   console.log(dealerHand, playerHand);
   console.log(winner, tie, turn);
@@ -412,8 +387,8 @@ function newGame() {
   ];
   console.log("newgame clicked");
 }
+
 initiatePlayer();
-initiateDealer();
 initiateDealer();
 /*----------------------------- Event Listeners -----------------------------*/
 hitmeBtn.addEventListener("click", deal);
@@ -421,4 +396,39 @@ standBtn.addEventListener("click", dealerTurn);
 newHandBtn.addEventListener("click", newHand);
 newGameBtn.addEventListener("click", newGame);
 
+//----------------
 
+// //try:
+
+// function pushTwoCards(newCardObj) {
+//   dealerHand.push(newCardObj);
+//   renderDealerCard(newCardObj);
+//   renderHiddenCard(newCardObj);
+//   console.log(dealerHand, "<- dealerHand");
+//   return newCardObj;
+// }
+
+// //try:
+// function pushNewCard(newCardObj) {
+//   if (turn === true) {
+//     playerHand.push(newCardObj);
+//     console.log(playerHand, "<-player hand");
+//   } else if (turn === false) {
+//     dealerHand.push(newCardObj);
+//     console.log(dealerHand, "<-dealer hand");
+//   } else if (turn === undefined) {
+//     dealerHand.push(newCardObj);
+//     console.log(dealerHand, "<-dealer hand");
+//     pushTwoCards(newCardObj);
+//     turn = true;
+//   }
+//   addHand(playerHand, dealerHand);
+//   return playerHand, dealerHand;
+// }
+
+// function initiateGame() {
+//   deal();
+//   deal();
+//   deal();
+//   deal();
+// }

@@ -19,14 +19,15 @@ let newHandBtn = document.querySelector(".newhand-button");
 let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
 /*-------------------------------- Functions --------------------------------*/
-function renderMessage(winner, tie, playerSum) {
+function renderMessage() {
   if (winner === true) {
-    winMessage.innerText = `Congratualtions player! You Win with ${playerSum} points!`;
+    winMessage.innerText = `Congratualtions player! You Win with ${playerSum} points! to ${dealerSum} points`;
   } else if (tie === true) {
     winMessage.innerText = `It's a tie! With ${playerSum} points!`;
   } else if (winner === false) {
-    winMessage.innerText = `Player you loose.`;
+    winMessage.innerText = `Player you loose with ${playerSum} points to ${dealerSum} points.`;
   }
+  console.log(playerSum, dealerSum, winner, "line 30");
 }
 
 function gameStop(winner) {
@@ -99,18 +100,19 @@ function activateBtns() {
   standBtn.disabled = false;
 }
 
-function aceRule(turn, winner) {
+function aceRule(turn, winner, playerSum, dealerSum) {
   if (turn === true) {
     let aceCardIdx = playerHand.findIndex((card) => card.value === 11);
     if (aceCardIdx !== -1) {
       playerHand[aceCardIdx].value = 1;
-      winner;
+      //winner;
       addHand(playerHand, dealerHand); // this is checking win .
       activateBtns();
       console.log(winner, playerHand);
     } else {
       winner = false;
-      renderMessage(winner);
+      //renderMessage(winner, playerSum); // forgot to add sum to players turn
+      return false; // added a reutn false for plaayer
     }
   } else if (turn === false) {
     let aceCardIdx = dealerHand.findIndex((card) => card.value === 11);
@@ -121,8 +123,7 @@ function aceRule(turn, winner) {
       activateBtns();
       console.log(winner, dealerHand);
     } else {
-      winner = true;
-      renderMessage(winner);
+      return false;
     }
   }
   return winner;
@@ -131,13 +132,16 @@ function aceRule(turn, winner) {
 function checkWin(playerSum, dealerSum) {
   if (turn === true) {
     if (playerSum > 21) {
-      aceRule(turn, winner);
+      aceRule(turn, winner, playerSum); //reset to false - return // turn isn't necessary
+      winner = false;
     } else if (playerSum < 22 && playerSum === 21) {
       winner = true;
+    } else {
+      return; // added return if conditions are not met
     }
-    console.log(winner, "<- winner stat1");
-    renderMessage(winner);
-    return winner;
+    console.log("check win turn true", winner, playerSum);
+    renderMessage(); // playerSum was missing
+    return;
   }
   if (turn === false) {
     if (dealerSum === 21) {
@@ -155,7 +159,7 @@ function checkWin(playerSum, dealerSum) {
   }
 
   gameStop(winner, tie);
-  renderMessage(winner, tie, playerSum);
+  renderMessage();
   console.log(winner, "<- winner stat2");
   return winner;
 }
@@ -204,18 +208,16 @@ function renderCard(newCardObj) {
       dealerHandEl.children[1].classList.add("back-red");
       dealerHandEl.children[1].id = "hidden-card";
     }
-    console.log(dealerHandEl.children[1]);
+    // console.log(dealerHandEl.children[1]);
   }
-  //addHand(playerHand, dealerHand);
-  console.log(divEl);
   return divEl;
 }
 
 function addHand(playerHand, dealerHand) {
-  let playerSum = playerHand.reduce(function (sum, playerCard) {
+  playerSum = playerHand.reduce(function (sum, playerCard) {
     return sum + playerCard.value;
   }, 0);
-  let dealerSum = dealerHand.reduce(function (sum, dealerCard) {
+  dealerSum = dealerHand.reduce(function (sum, dealerCard) {
     return sum + dealerCard.value;
   }, 0);
   if (checkWin(playerSum, dealerSum)) return;
@@ -228,16 +230,12 @@ function addHand(playerHand, dealerHand) {
 function pushNewCard(newCardObj) {
   if (turn === true) {
     playerHand.push(newCardObj);
-    console.log(playerHand, "<-player hand wooo");
   } else if (turn === false) {
     dealerHand.push(newCardObj);
-    console.log(dealerHand, "<-dealer hand shooo");
   } else if (turn === undefined) {
     dealerHand.push(newCardObj);
-    console.log(dealerHand, "<-dealer hand wooo");
   }
   renderCard(newCardObj);
-  // return playerHand, dealerHand;
 }
 
 function deal() {
@@ -246,14 +244,11 @@ function deal() {
   }
   if (deck.length === 0) {
     newDeck();
-    console.log(deck);
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
 
   pushNewCard(newCardObj);
-  // renderCard(newCardObj);
-  console.log(newCardObj);
   return newCardObj;
 }
 

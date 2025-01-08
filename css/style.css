@@ -19,17 +19,16 @@ body {
     "button"
     "explain";
   height: 40vmax;
-  color: #ADADAD;
+  color: #adadad;
 }
 
 h1,
 h2 {
   text-align: center;
-  margin: 0px;
+  margin: 5px;
 }
 
 .container {
-  /* margin:  */
   position: relative;
   right: 150px;
   display: flex;
@@ -71,7 +70,7 @@ h2 {
   align-items: center;
 }
 button {
-  background-color: #F0F273;
+  background-color: #f0f273;
   font-weight: bold;
   border: 2px solid black;
   margin-top: 2vh;
@@ -85,7 +84,9 @@ p {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  margin: 20px;
+  margin-top: 70px;
+  margin-right: 80px;
+  margin-left: 80px;
 }
 
 /* div {

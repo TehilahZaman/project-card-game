@@ -20,12 +20,16 @@ let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
 /*-------------------------------- Functions --------------------------------*/
 function renderMessage() {
-  if (winner === true) {
-    winMessage.innerText = `Congratualtions player! You Win with ${playerSum} points! to ${dealerSum} points`;
+  if (turn === true && winner === true) {
+    winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
+  } else if (turn === true && winner === false) {
+    winMessage.innerText = `Player you loose with ${playerSum} points.`;
+  } else if (turn === false && winner === true) {
+    winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
+  } else if (turn === false && winner === false) {
+    winMessage.innerText = `Player you loose with ${playerSum} points to dealer's ${dealerSum} points.`;
   } else if (tie === true) {
     winMessage.innerText = `It's a tie! With ${playerSum} points!`;
-  } else if (winner === false) {
-    winMessage.innerText = `Player you loose with ${playerSum} points to ${dealerSum} points.`;
   }
   console.log(playerSum, dealerSum, winner, "line 30");
 }
@@ -106,7 +110,7 @@ function aceRule(turn, winner, playerSum, dealerSum) {
     if (aceCardIdx !== -1) {
       playerHand[aceCardIdx].value = 1;
       //winner;
-      addHand(playerHand, dealerHand); // this is checking win .
+      checkWin(playerHand, dealerHand); // this is checking win .
       activateBtns();
       console.log(winner, playerHand);
     } else {
@@ -119,7 +123,7 @@ function aceRule(turn, winner, playerSum, dealerSum) {
     if (aceCardIdx !== -1) {
       dealerHand[aceCardIdx].value = 1;
       winner;
-      addHand(playerHand, dealerHand);
+      checkWin(playerHand, dealerHand);
       activateBtns();
       console.log(winner, dealerHand);
     } else {
@@ -129,19 +133,23 @@ function aceRule(turn, winner, playerSum, dealerSum) {
   return winner;
 } // this function should just check for a ace and flip the value, does not need to set winner to null
 
-function checkWin(playerSum, dealerSum) {
+function checkWin() {
+  playerSum = addPlayerHand(playerHand);
+  dealerSum = addDealerHand(dealerHand);
+  dealer17Logic(dealerSum);
+
   if (turn === true) {
     if (playerSum > 21) {
-      aceRule(turn, winner, playerSum); //reset to false - return // turn isn't necessary
+      aceRule(turn, winner);
       winner = false;
     } else if (playerSum < 22 && playerSum === 21) {
       winner = true;
     } else {
-      return; // added return if conditions are not met
+      return; // added return in conditions are not met
     }
-    console.log("check win turn true", winner, playerSum);
-    renderMessage(); // playerSum was missing
-    return;
+    console.log(winner, "<- winner stat1");
+    renderMessage();
+    return; //is this necessary?
   }
   if (turn === false) {
     if (dealerSum === 21) {
@@ -154,13 +162,13 @@ function checkWin(playerSum, dealerSum) {
     } else if (dealerSum > playerSum) {
       winner = false;
     } else if (playerSum === dealerSum) {
-      tie === true;
+      tie = true;
     }
   }
-
   gameStop(winner, tie);
   renderMessage();
   console.log(winner, "<- winner stat2");
+  console.log(playerSum, dealerSum);
   return winner;
 }
 
@@ -194,13 +202,13 @@ function renderCard(newCardObj) {
   if (turn === true) {
     setTimeout(() => {
       playerHandEl.appendChild(divEl);
-      addHand(playerHand, dealerHand);
+      checkWin(playerHand, dealerHand);
     }, 250);
   } else if (turn === false) {
     setTimeout(() => {
       dealerHandEl.appendChild(divEl);
       // animation class
-      addHand(playerHand, dealerHand); // here would be checkwin in place of addHand
+      checkWin(playerHand, dealerHand); // here would be checkwin in place of addHand >
     }, 400);
   } else if (turn === undefined) {
     dealerHandEl.appendChild(divEl);
@@ -213,18 +221,17 @@ function renderCard(newCardObj) {
   return divEl;
 }
 
-function addHand(playerHand, dealerHand) {
-  playerSum = playerHand.reduce(function (sum, playerCard) {
+function addPlayerHand(playerHand) {
+  const sum = playerHand.reduce(function (sum, playerCard) {
     return sum + playerCard.value;
   }, 0);
-  dealerSum = dealerHand.reduce(function (sum, dealerCard) {
+  return sum;
+}
+function addDealerHand(dealerHand) {
+  const sum = dealerHand.reduce(function (sum, dealerCard) {
     return sum + dealerCard.value;
   }, 0);
-  if (checkWin(playerSum, dealerSum)) return;
-  dealer17Logic(dealerSum);
-  console.log(playerSum, "<- player sum");
-  console.log(dealerSum, "<- dealer sum");
-  // return playerSum, dealerSum;
+  return sum;
 }
 
 function pushNewCard(newCardObj) {

@@ -27,8 +27,8 @@ Blackjack is a card game with two players; the dealer and you. The goal is to ge
 
 |     Screenshot      |                             Description                              |
 | :-----------------: | :------------------------------------------------------------------: |
-| **Computer's Turn** | <img src="images/screenshots/screenshotDealersTurn.jpg" width="600"> |
 |  **Player's Turn**  | <img src="images/screenshots/screenshotPlayersTurn.jpg" width="600"> |
+| **Computer's Turn** | <img src="images/screenshots/screenshotDealersTurn.jpg" width="600"> |
 
 ## :computer: Technologies Used
 

@@ -31,72 +31,60 @@ function renderMessage() {
   } else if (tie === true) {
     winMessage.innerText = `It's a tie! With ${playerSum} points!`;
   }
-  console.log(playerSum, dealerSum, winner, "line 30");
 }
 
-function gameStop(winner) {
+function gameStop() {
   if (winner !== undefined || tie === true) {
     hitmeBtn.disabled = true;
     standBtn.disabled = true;
+    console.log("game stop called");
   }
 }
 
 function newDeck() {
   console.log("new deeeck");
-  deck = [
-    { card: "dA", value: 11 },
-    { card: "dQ", value: 10 },
-    { card: "dK", value: 10 },
-    { card: "dJ", value: 10 },
-    { card: "d10", value: 10 },
-    { card: "d09", value: 9 },
-    { card: "d08", value: 8 },
-    { card: "d07", value: 7 },
-    { card: "d06", value: 6 },
-    { card: "d05", value: 5 },
-    { card: "d04", value: 4 },
-    { card: "d03", value: 3 },
-    { card: "d02", value: 2 },
-    { card: "hA", value: 11 },
-    { card: "hQ", value: 10 },
-    { card: "hK", value: 10 },
-    { card: "hJ", value: 10 },
-    { card: "h10", value: 10 },
-    { card: "h09", value: 9 },
-    { card: "h08", value: 8 },
-    { card: "h07", value: 7 },
-    { card: "h06", value: 6 },
-    { card: "h05", value: 5 },
-    { card: "h04", value: 4 },
-    { card: "h03", value: 3 },
-    { card: "h02", value: 2 },
-    { card: "cA", value: 11 },
-    { card: "cQ", value: 10 },
-    { card: "cK", value: 10 },
-    { card: "cJ", value: 10 },
-    { card: "c10", value: 10 },
-    { card: "c09", value: 9 },
-    { card: "c08", value: 8 },
-    { card: "c07", value: 7 },
-    { card: "c06", value: 6 },
-    { card: "c05", value: 5 },
-    { card: "c04", value: 4 },
-    { card: "c03", value: 3 },
-    { card: "c02", value: 2 },
-    { card: "sA", value: 11 },
-    { card: "sQ", value: 10 },
-    { card: "sK", value: 10 },
-    { card: "sJ", value: 10 },
-    { card: "s10", value: 10 },
-    { card: "s09", value: 9 },
-    { card: "s08", value: 8 },
-    { card: "s07", value: 7 },
-    { card: "s06", value: 6 },
-    { card: "s05", value: 5 },
-    { card: "s04", value: 4 },
-    { card: "s03", value: 3 },
-    { card: "s02", value: 2 },
+  suits = ["s", "h", "d", "c"];
+  let cardNumbers = [
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "J",
+    "Q",
+    "K",
+    "A",
   ];
+  let altNumbers = [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "Jack",
+    "Queen",
+    "King",
+    "Ace",
+  ];
+  let altSuites = ["spades", "hearts", "diamonds", "clubs"];
+  let values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+  for (let i = 0; i < 4; i++) {
+    for (let f = 0; f < 13; f++) {
+      let card = {};
+      card.face = suits[i].concat(cardNumbers[f]);
+      card.value = values[f];
+      card.alt = altNumbers[f] + ` of ` + altSuites[i];
+      deck.push(card);
+    }
+  }
 }
 
 function activateBtns() {
@@ -124,13 +112,12 @@ function aceRule(turn) {
       return false;
     }
   }
-  // activateBtns(); // does this go here or go after each value change
 }
 
 function checkWin() {
   playerSum = addPlayerHand(playerHand);
   dealerSum = addDealerHand(dealerHand);
-  dealer17Logic(dealerSum);
+  dealer17Logic(dealerSum); // is this good? 
 
   if (turn === true) {
     if (playerSum > 21) {
@@ -139,18 +126,16 @@ function checkWin() {
     } else if (playerSum < 22 && playerSum === 21) {
       winner = true;
     } else {
-      return; // added return in conditions are not met
+      return;
     }
     console.log(winner, "<- winner stat1");
-    renderMessage();
-    return; //is this necessary?
   }
   if (turn === false) {
     if (dealerSum === 21) {
       winner = false;
     } else if (dealerSum > 21) {
       if (aceRule(turn)) return;
-      winner = true; //delete me
+      winner = true;
     } else if (dealerSum > 17 && dealerSum < playerSum) {
       winner = true;
     } else if (dealerSum > playerSum) {
@@ -159,19 +144,19 @@ function checkWin() {
       tie = true;
     }
   }
-  gameStop(winner, tie);
+  gameStop();
   renderMessage();
   console.log(winner, "<- winner stat2");
   console.log(playerSum, dealerSum);
-  return winner;
 }
 
 function dealer17Logic(dealerSum) {
   if (turn === false && dealerSum <= 17) {
     deal();
     // return true;
-  } else {
-    //return false;
+  // } else {
+  //   return; 
+  //   //return false;
   }
   return dealerSum;
 }
@@ -188,11 +173,12 @@ function dealerTurn() {
 }
 
 function renderCard(newCardObj) {
-  console.log(newCardObj, "newcardobj test");
   let divEl = document.createElement("div");
   divEl.classList.add("card");
-  divEl.classList.add(newCardObj.card);
+  divEl.classList.add("large");
+  divEl.classList.add(newCardObj.face);
   divEl.classList.add("cardtag");
+  divEl.setAttribute("alt", newCardObj.alt);
   if (turn === true) {
     setTimeout(() => {
       playerHandEl.appendChild(divEl);
@@ -202,7 +188,7 @@ function renderCard(newCardObj) {
     setTimeout(() => {
       dealerHandEl.appendChild(divEl);
       // animation class
-      checkWin(playerHand, dealerHand); // here would be checkwin in place of addHand >
+      checkWin(playerHand, dealerHand);
     }, 400);
   } else if (turn === undefined) {
     dealerHandEl.appendChild(divEl);
@@ -210,7 +196,6 @@ function renderCard(newCardObj) {
       dealerHandEl.children[1].classList.add("back-red");
       dealerHandEl.children[1].id = "hidden-card";
     }
-    // console.log(dealerHandEl.children[1]);
   }
   return divEl;
 }
@@ -219,12 +204,14 @@ function addPlayerHand(playerHand) {
   const sum = playerHand.reduce(function (sum, playerCard) {
     return sum + playerCard.value;
   }, 0);
+  console.log(sum, "player sum");
   return sum;
 }
 function addDealerHand(dealerHand) {
   const sum = dealerHand.reduce(function (sum, dealerCard) {
     return sum + dealerCard.value;
   }, 0);
+  console.log(sum, "dealer sum");
   return sum;
 }
 
@@ -237,6 +224,8 @@ function pushNewCard(newCardObj) {
     dealerHand.push(newCardObj);
   }
   renderCard(newCardObj);
+  console.log(playerHand, "player hand");
+  console.log(dealerHand, "dealer hand");
 }
 
 function deal() {
@@ -248,7 +237,6 @@ function deal() {
   }
   let randomIdx = Math.floor(Math.random() * deck.length);
   let newCardObj = deck.splice(randomIdx, 1)[0];
-
   pushNewCard(newCardObj);
   return newCardObj;
 }
@@ -296,43 +284,3 @@ hitmeBtn.addEventListener("click", deal);
 standBtn.addEventListener("click", dealerTurn);
 newHandBtn.addEventListener("click", newHand);
 newGameBtn.addEventListener("click", newGame);
-
-// newDeck = {
-//   suits: ["s", "k", "d", "c"],
-//   //numbers: [02, 03, ],
-//   values: [],
-// };
-
-// function otherNewDeck() {
-//   let deck = [];
-//   let card = {};
-//   let idx = Math.floor(Math.random() * 4);
-//   let index = Math.floor(Math.random() * 12);
-//   suits = ["s", "k", "d", "c"];
-//   let cards = [
-//     "02",
-//     "03",
-//     "04",
-//     "05",
-//     "06",
-//     "07",
-//     "08",
-//     "09",
-//     "10",
-//     "J",
-//     "Q",
-//     "K",
-//     "A",
-//   ];
-//   card.face = suits[idx].concat(cards[index]);
-//   card.value = index;
-//   // for (let i = 0; i < 4; i++) {
-//   //   for (let f = 0; f < 12; f++) {
-//   //   }
-//   // }
-//   deck.push(card);
-//   //console.log();
-//   console.log(card);
-//   console.log(deck);
-// }
-// otherNewDeck();

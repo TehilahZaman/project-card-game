@@ -104,34 +104,28 @@ function activateBtns() {
   standBtn.disabled = false;
 }
 
-function aceRule(turn, winner, playerSum, dealerSum) {
+function aceRule(turn) {
   if (turn === true) {
     let aceCardIdx = playerHand.findIndex((card) => card.value === 11);
     if (aceCardIdx !== -1) {
       playerHand[aceCardIdx].value = 1;
-      //winner;
-      checkWin(playerHand, dealerHand); // this is checking win .
       activateBtns();
-      console.log(winner, playerHand);
+      return true;
     } else {
-      winner = false;
-      //renderMessage(winner, playerSum); // forgot to add sum to players turn
-      return false; // added a reutn false for plaayer
+      return false;
     }
   } else if (turn === false) {
     let aceCardIdx = dealerHand.findIndex((card) => card.value === 11);
     if (aceCardIdx !== -1) {
       dealerHand[aceCardIdx].value = 1;
-      winner;
-      checkWin(playerHand, dealerHand);
       activateBtns();
-      console.log(winner, dealerHand);
+      return true;
     } else {
       return false;
     }
   }
-  return winner;
-} // this function should just check for a ace and flip the value, does not need to set winner to null
+  // activateBtns(); // does this go here or go after each value change
+}
 
 function checkWin() {
   playerSum = addPlayerHand(playerHand);
@@ -140,7 +134,7 @@ function checkWin() {
 
   if (turn === true) {
     if (playerSum > 21) {
-      aceRule(turn, winner);
+      if (aceRule(turn)) return;
       winner = false;
     } else if (playerSum < 22 && playerSum === 21) {
       winner = true;
@@ -155,7 +149,7 @@ function checkWin() {
     if (dealerSum === 21) {
       winner = false;
     } else if (dealerSum > 21) {
-      aceRule(turn, winner);
+      if (aceRule(turn)) return;
       winner = true; //delete me
     } else if (dealerSum > 17 && dealerSum < playerSum) {
       winner = true;

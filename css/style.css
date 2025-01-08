@@ -16,8 +16,10 @@ body {
     "container"
     "dealer"
     "player"
-    "button";
+    "button"
+    "explain";
   height: 40vmax;
+  color: #A6A6A6;
 }
 
 h1,
@@ -27,7 +29,7 @@ h2 {
 
 .container {
   position: relative;
-  right: 150px; 
+  right: 150px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -74,6 +76,12 @@ button {
   padding: 0.8rem;
   border-radius: 5px;
   color: black;
+}
+
+p {
+  font-weight: bold;
+  text-align: center;
+  padding: 50px;
 }
 
 /* div {

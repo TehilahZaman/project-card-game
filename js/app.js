@@ -98,6 +98,7 @@ function aceRule(turn) {
     if (aceCardIdx !== -1) {
       playerHand[aceCardIdx].value = 1;
       activateBtns();
+      checkWin();
       return true;
     } else {
       return false;
@@ -107,6 +108,7 @@ function aceRule(turn) {
     if (aceCardIdx !== -1) {
       dealerHand[aceCardIdx].value = 1;
       activateBtns();
+      checkWin(); //does this fix the stall issue with the last card being ace to 21?
       return true;
     } else {
       return false;
@@ -117,7 +119,7 @@ function aceRule(turn) {
 function checkWin() {
   playerSum = addPlayerHand(playerHand);
   dealerSum = addDealerHand(dealerHand);
-  dealer17Logic(dealerSum); // is this good? 
+  if (dealer17Logic(dealerSum)) return; // is this good?
 
   if (turn === true) {
     if (playerSum > 21) {
@@ -153,12 +155,10 @@ function checkWin() {
 function dealer17Logic(dealerSum) {
   if (turn === false && dealerSum <= 17) {
     deal();
-    // return true;
-  // } else {
-  //   return; 
-  //   //return false;
+    return true;
+  } else {
+    return false;
   }
-  return dealerSum;
 }
 
 function flipCard() {
@@ -197,7 +197,7 @@ function renderCard(newCardObj) {
       dealerHandEl.children[1].id = "hidden-card";
     }
   }
-  return divEl;
+  // return divEl;
 }
 
 function addPlayerHand(playerHand) {

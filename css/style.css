@@ -19,7 +19,9 @@ body {
     "button"
     "explain";
   height: 40vmax;
-  color: #adadad;
+  /* color: #adadad; */
+  color: white;
+  -webkit-text-stroke: 0.25px black;
 }
 
 h1,
@@ -74,10 +76,12 @@ button {
   font-weight: bold;
   border: 2px solid black;
   margin-top: 2vh;
+  margin-left: 1vh;
   padding: 0.8rem;
   border-radius: 5px;
   color: black;
   font-size: 15px;
+  cursor: pointer;
 }
 
 p {

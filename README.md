@@ -60,6 +60,6 @@ Blackjack is a card game with two players; the dealer and you. The goal is to ge
 
 ## :satellite: Upcoming Features
 
-- [:star:] README.md
++ [] README.md
 
-- [:x:] Animations when card is dealt from the deck
+- [x] Animations when card is dealt from the deck

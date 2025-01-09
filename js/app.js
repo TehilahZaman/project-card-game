@@ -188,7 +188,7 @@ function renderCard(newCardObj) {
     setTimeout(() => {
       playerHandEl.appendChild(divEl);
       checkWin(playerHand, dealerHand);
-    }, 250);
+    }, 400);
   } else if (turn === false) {
     setTimeout(() => {
       dealerHandEl.appendChild(divEl);

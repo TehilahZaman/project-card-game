@@ -9,7 +9,7 @@ alt="card half folded up, displaying an ace of clubs">
 
 # Blackjack
 
-### Click to Play (link goes here)
+### Click to Play (https://tehilahzaman.github.io/project-card-game-blackjack/)
 
 ##### Created By Tehilah Zamanzadeh
 
@@ -53,8 +53,8 @@ Blackjack is a card game with two players; the dealer and you. The goal is to ge
 
 <details open>
   <summary> Deployed Link </summary>
-  <a href="add link here "
-    > add same link here  </a
+  <a href="https://tehilahzaman.github.io/project-card-game-blackjack/"
+    > https://tehilahzaman.github.io/project-card-game-blackjack/ </a
   >
 </details>
 
@@ -62,4 +62,6 @@ Blackjack is a card game with two players; the dealer and you. The goal is to ge
 
 - [x] README.md
 
-- [ ] Animations when card is dealt from the deck
+- [ ] Add animations when card is dealt from the deck
+
+- [ ] Add sound when card button is clicked

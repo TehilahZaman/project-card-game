@@ -9,7 +9,7 @@ alt="card half folded up, displaying an ace of clubs">
 
 # Blackjack
 
-### Click to Play (https://tehilahzaman.github.io/project-card-game-blackjack/)
+### [Click to Play](https://tehilahzaman.github.io/project-card-game-blackjack/)
 
 ##### Created By Tehilah Zamanzadeh
 

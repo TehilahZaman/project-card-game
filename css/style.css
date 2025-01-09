@@ -2,7 +2,6 @@ body {
   background-color: #194332;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  /* grid-template-columns: 1fr 2fr; */
   grid-template-areas:
     "container"
     "dealer"

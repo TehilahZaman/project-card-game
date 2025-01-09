@@ -47,12 +47,10 @@ function gameStop() {
   if (winner !== undefined || tie === true) {
     hitmeBtn.disabled = true;
     standBtn.disabled = true;
-    console.log("game stop called");
   }
 }
 
 function newDeck() {
-  console.log("new deeeck");
   suits = ["s", "h", "d", "c"];
   let cardNumbers = [
     "02",
@@ -118,7 +116,7 @@ function aceRule(turn) {
     if (aceCardIdx !== -1) {
       dealerHand[aceCardIdx].value = 1;
       activateBtns();
-      checkWin(); //does this fix the stall issue with the last card being ace to 21? i think so
+      checkWin();
       return true;
     } else {
       return false;
@@ -127,8 +125,8 @@ function aceRule(turn) {
 }
 
 function checkWin() {
-  playerSum = addPlayerHand(playerHand);
-  dealerSum = addDealerHand(dealerHand);
+  playerSum = addPlayerHand();
+  dealerSum = addDealerHand();
   if (dealer17Logic(dealerSum)) return;
 
   if (turn === true) {
@@ -140,7 +138,6 @@ function checkWin() {
     } else {
       return;
     }
-    console.log(winner, "<- winner stat1");
   }
   if (turn === false) {
     if (dealerSum === 21) {
@@ -158,8 +155,6 @@ function checkWin() {
   }
   gameStop();
   renderMessage();
-  console.log(winner, "<- winner stat2");
-  console.log(playerSum, dealerSum);
 }
 
 function dealer17Logic(dealerSum) {
@@ -197,7 +192,6 @@ function renderCard(newCardObj) {
   } else if (turn === false) {
     setTimeout(() => {
       dealerHandEl.appendChild(divEl);
-      // animation class
       checkWin(playerHand, dealerHand);
     }, 400);
   } else if (turn === undefined) {
@@ -209,18 +203,16 @@ function renderCard(newCardObj) {
   }
 }
 
-function addPlayerHand(playerHand) {
+function addPlayerHand() {
   const sum = playerHand.reduce(function (sum, playerCard) {
     return sum + playerCard.value;
   }, 0);
-  console.log(sum, "player sum");
   return sum;
 }
-function addDealerHand(dealerHand) {
+function addDealerHand() {
   const sum = dealerHand.reduce(function (sum, dealerCard) {
     return sum + dealerCard.value;
   }, 0);
-  console.log(sum, "dealer sum");
   return sum;
 }
 
@@ -233,8 +225,6 @@ function pushNewCard(newCardObj) {
     dealerHand.push(newCardObj);
   }
   renderCard(newCardObj);
-  console.log(playerHand, "player hand");
-  console.log(dealerHand, "dealer hand");
 }
 
 function deal() {
@@ -274,17 +264,10 @@ function newHand() {
   });
   activateBtns();
   initiateDealer();
-  console.log("newhand clicked");
-  console.log(cardEls);
-  console.log(dealerHand, playerHand);
-  console.log(winner, tie, turn);
-  console.log(deck.length);
-  console.log(deck);
 }
 function newGame() {
   newHand();
   newDeck();
-  console.log("newgame clicked");
 }
 
 initiateDealer();

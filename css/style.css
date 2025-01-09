@@ -1,12 +1,3 @@
-/* body {
-  background-color: #696969;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50vmax;
-}  */
-
 body {
   background-color: #194332;
   display: grid;
@@ -19,7 +10,6 @@ body {
     "button"
     "explain";
   height: 40vmax;
-  /* color: #adadad; */
   color: white;
   -webkit-text-stroke: 0.25px black;
 }
@@ -93,12 +83,9 @@ p {
   margin-left: 80px;
 }
 
-/* div {
-transition: 5s
+div {
+  transition: 0.5s;
 }
-.back{
-  transition: 3s
-}  */
 
 .h1 {
   border-style: solid;

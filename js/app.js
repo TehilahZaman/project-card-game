@@ -23,23 +23,23 @@ function renderMessage() {
   if (turn === true && winner === true) {
     setTimeout(() => {
       winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
-    }, 500);
+    }, 300);
   } else if (turn === true && winner === false) {
     setTimeout(() => {
       winMessage.innerText = `Player you loose with ${playerSum} points.`;
-    }, 500);
+    }, 300);
   } else if (turn === false && winner === true) {
     setTimeout(() => {
       winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
-    }, 500);
+    }, 400);
   } else if (turn === false && winner === false) {
     setTimeout(() => {
       winMessage.innerText = `Player you loose with ${playerSum} points to dealer's ${dealerSum} points.`;
-    }, 500);
+    }, 400);
   } else if (tie === true) {
     setTimeout(() => {
       winMessage.innerText = `It's a tie! With ${playerSum} points!`;
-    }, 500);
+    }, 400);
   }
 }
 
@@ -118,7 +118,7 @@ function aceRule(turn) {
     if (aceCardIdx !== -1) {
       dealerHand[aceCardIdx].value = 1;
       activateBtns();
-      checkWin(); //does this fix the stall issue with the last card being ace to 21?
+      checkWin(); //does this fix the stall issue with the last card being ace to 21? i think so
       return true;
     } else {
       return false;
@@ -129,7 +129,7 @@ function aceRule(turn) {
 function checkWin() {
   playerSum = addPlayerHand(playerHand);
   dealerSum = addDealerHand(dealerHand);
-  if (dealer17Logic(dealerSum)) return; // is this good?
+  if (dealer17Logic(dealerSum)) return;
 
   if (turn === true) {
     if (playerSum > 21) {
@@ -207,7 +207,6 @@ function renderCard(newCardObj) {
       dealerHandEl.children[1].id = "hidden-card";
     }
   }
-  // return divEl;
 }
 
 function addPlayerHand(playerHand) {
@@ -269,7 +268,7 @@ function newHand() {
   winMessage.innerText = "";
   winner = undefined;
   tie = undefined;
-  let cardEls = document.querySelectorAll(".cardtag"); // why doesn't this work outside?
+  let cardEls = document.querySelectorAll(".cardtag");
   cardEls.forEach((card) => {
     card.remove();
   });

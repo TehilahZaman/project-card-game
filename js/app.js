@@ -8,8 +8,6 @@ let winner;
 let turn;
 let message;
 let tie;
-let playerHandValue = [];
-let dealerHandValue = [];
 /*------------------------ Cached Element References ------------------------*/
 let hitmeBtn = document.querySelector(".hitme-button");
 let standBtn = document.querySelector(".stand-button");

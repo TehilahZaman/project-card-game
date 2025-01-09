@@ -21,15 +21,25 @@ let winMessage = document.getElementById("win-message");
 /*-------------------------------- Functions --------------------------------*/
 function renderMessage() {
   if (turn === true && winner === true) {
-    winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
+    setTimeout(() => {
+      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
+    }, 500);
   } else if (turn === true && winner === false) {
-    winMessage.innerText = `Player you loose with ${playerSum} points.`;
+    setTimeout(() => {
+      winMessage.innerText = `Player you loose with ${playerSum} points.`;
+    }, 500);
   } else if (turn === false && winner === true) {
-    winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
+    setTimeout(() => {
+      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
+    }, 500);
   } else if (turn === false && winner === false) {
-    winMessage.innerText = `Player you loose with ${playerSum} points to dealer's ${dealerSum} points.`;
+    setTimeout(() => {
+      winMessage.innerText = `Player you loose with ${playerSum} points to dealer's ${dealerSum} points.`;
+    }, 500);
   } else if (tie === true) {
-    winMessage.innerText = `It's a tie! With ${playerSum} points!`;
+    setTimeout(() => {
+      winMessage.innerText = `It's a tie! With ${playerSum} points!`;
+    }, 500);
   }
 }
 
@@ -168,8 +178,8 @@ function flipCard() {
 
 function dealerTurn() {
   turn = false;
-  deal();
   flipCard();
+  checkWin();
 }
 
 function renderCard(newCardObj) {

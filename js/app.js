@@ -255,11 +255,13 @@ function help() {
   alert(
     ` You and the dealer start with 2 cards each.
     
-  Your goal is to get 21 points. Royals are 10 points, aces are 11 or 1.
+  Your goal is to get 21 points, anything above 21 is a bust.
   
   Click 'Hit Me' to deal another card, and 'Stand' to end your turn.
   
-  If no one reaches 21, closest to 21 without going above wins!`
+  Royals are 10 points, aces are 11 or 1.
+  
+  If no one reaches 21, closest to 21 wins!`
   );
 }
 

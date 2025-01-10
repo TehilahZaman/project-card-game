@@ -1,5 +1,8 @@
 body {
   background-color: #194332;
+  background-image: url(https://media.istockphoto.com/id/1407257859/vector/poker-table-with-realistic-wooden-frame.jpg?s=612x612&w=0&k=20&c=n-31QpTsQ_vUhG8rP58cWu17QvixoIH2TUsPnKtJqi4=);
+  background-size: cover;
+  background-position: center top;
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
@@ -8,7 +11,6 @@ body {
     "player"
     "button"
     "explain";
-  height: 40vmax;
   color: white;
   -webkit-text-stroke: 0.25px black;
 }
@@ -19,8 +21,8 @@ h2 {
   margin: 5px;
 }
 
-span {
-  font-size: 10px;
+#win-message {
+  height: 30px;
 }
 
 .container {
@@ -30,8 +32,8 @@ span {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 40px;
+  margin-bottom: 5px;
 }
 
 #dealer-hand {
@@ -46,6 +48,7 @@ span {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 165px;
 }
 
 .cardtag {
@@ -77,34 +80,10 @@ button {
   color: black;
   font-size: 15px;
   cursor: pointer;
-}
-
-p {
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 30px;
-  margin-right: 80px;
-  margin-left: 80px;
+  margin-top: 25px;
+  position: static;
 }
 
 div {
   transition: 0.5s;
-}
-
-.h1 {
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  width: 100px;
-  height: 100px;
-  background-color: #0000ff;
-  transition: width 2s, height 2s, background-color 2s, transform 2s;
-}
-
-.h1:hover {
-  background-color: #ffcccc;
-  width: 200px;
-  height: 200px;
-  transform: rotate(180deg);
 }

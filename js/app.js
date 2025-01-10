@@ -16,6 +16,7 @@ let dealerHandEl = document.querySelector("#dealer-hand");
 let newHandBtn = document.querySelector(".newhand-button");
 let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
+let helpBtn = document.querySelector(".help-button");
 /*-------------------------------- Functions --------------------------------*/
 function renderMessage() {
   if (turn === true && winner === true) {
@@ -24,7 +25,7 @@ function renderMessage() {
     }, 300);
   } else if (turn === true && winner === false) {
     setTimeout(() => {
-      winMessage.innerText = `Player you loose with ${playerSum} points.`;
+      winMessage.innerText = `Player you lose with ${playerSum} points.`;
     }, 300);
   } else if (turn === false && winner === true) {
     setTimeout(() => {
@@ -32,7 +33,7 @@ function renderMessage() {
     }, 400);
   } else if (turn === false && winner === false) {
     setTimeout(() => {
-      winMessage.innerText = `Player you loose with ${playerSum} points to dealer's ${dealerSum} points.`;
+      winMessage.innerText = `Player you lose with ${playerSum} points to dealer's ${dealerSum} points.`;
     }, 400);
   } else if (tie === true) {
     setTimeout(() => {
@@ -250,6 +251,18 @@ function initiatePlayer() {
   deal();
 }
 
+function help() {
+  alert(
+    ` You and the dealer start with 2 cards each.
+    
+  You're goal is to get 21 points. Royals are 10 points, ace is 11 or 1.
+  
+  Click 'Hit Me' to deal another card, and 'Stand' to end your turn.
+  
+  If no one reaches 21, closest to 21 with out going above wins!`
+  );
+}
+
 function newHand() {
   playerHand = [];
   dealerHand = [];
@@ -274,3 +287,4 @@ hitmeBtn.addEventListener("click", deal);
 standBtn.addEventListener("click", dealerTurn);
 newHandBtn.addEventListener("click", newHand);
 newGameBtn.addEventListener("click", newGame);
+helpBtn.addEventListener("click", help);

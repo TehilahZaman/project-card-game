@@ -29,10 +29,12 @@ The goal of BlackJack is to get the sum of your hand to 21, or closer to 21 than
 
 ## :camera_flash: Screenshots
 
-|     Screenshot      |                             Description                              |
-| :-----------------: | :------------------------------------------------------------------: |
-|  **Player's Turn**  | <img src="images/screenshots/screenshotPlayersTurn.jpg" width="600"> |
-| **Computer's Turn** | <img src="images/screenshots/screenshotDealersTurn.jpg" width="600"> |
+|     Screenshot      |                                                        Description                                                         |
+| :-----------------: | :------------------------------------------------------------------------------------------------------------------------: |
+|   **Game Start**    |                               <img src="images/screenshots/screenshotStart.jpg" width="600">                               |
+|  **Player's Turn**  |                            <img src="images/screenshots/screenshotPlayersTurn.jpg" width="600">                            |
+| **Computer's Turn** |                            <img src="images/screenshots/screenshotDealersTurn.jpg" width="600">                            |
+| **Render Win/Loss** | <img src="images/screenshots/screenshotWin.jpg" width="600"> <img src="images/screenshots/screenshotBust.jpg" width="600"> |
 
 ## :computer: Technologies Used
 

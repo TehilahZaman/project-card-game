@@ -1,5 +1,3 @@
-/*-------------------------------- Constants --------------------------------*/
-
 /*-------------------------------- Variables --------------------------------*/
 let deck = [];
 let playerHand = [];
@@ -18,37 +16,6 @@ let newGameBtn = document.querySelector(".newgame-button");
 let winMessage = document.getElementById("win-message");
 let helpBtn = document.querySelector(".help-button");
 /*-------------------------------- Functions --------------------------------*/
-function renderMessage() {
-  if (turn === true && winner === true) {
-    setTimeout(() => {
-      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
-    }, 300);
-  } else if (turn === true && winner === false) {
-    setTimeout(() => {
-      winMessage.innerText = `Player you lose with ${playerSum} points.`;
-    }, 300);
-  } else if (turn === false && winner === true) {
-    setTimeout(() => {
-      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
-    }, 400);
-  } else if (turn === false && winner === false) {
-    setTimeout(() => {
-      winMessage.innerText = `Player you lose with ${playerSum} points to dealer's ${dealerSum} points.`;
-    }, 400);
-  } else if (tie === true) {
-    setTimeout(() => {
-      winMessage.innerText = `It's a tie! With ${playerSum} points!`;
-    }, 400);
-  }
-}
-
-function gameStop() {
-  if (winner !== undefined || tie === true) {
-    hitmeBtn.disabled = true;
-    standBtn.disabled = true;
-  }
-}
-
 function newDeck() {
   suits = ["s", "h", "d", "c"];
   let cardNumbers = [
@@ -94,9 +61,40 @@ function newDeck() {
   }
 }
 
+function renderMessage() {
+  if (turn === true && winner === true) {
+    setTimeout(() => {
+      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points!`;
+    }, 300);
+  } else if (turn === true && winner === false) {
+    setTimeout(() => {
+      winMessage.innerText = `Player you lose with ${playerSum} points.`;
+    }, 300);
+  } else if (turn === false && winner === true) {
+    setTimeout(() => {
+      winMessage.innerText = `Congratualtions player! You win with ${playerSum} points to dealer's ${dealerSum} points!`;
+    }, 400);
+  } else if (turn === false && winner === false) {
+    setTimeout(() => {
+      winMessage.innerText = `Player you lose with ${playerSum} points to dealer's ${dealerSum} points.`;
+    }, 400);
+  } else if (tie === true) {
+    setTimeout(() => {
+      winMessage.innerText = `It's a tie! With ${playerSum} points!`;
+    }, 400);
+  }
+}
+
 function activateBtns() {
   hitmeBtn.disabled = false;
   standBtn.disabled = false;
+}
+
+function gameStop() {
+  if (winner !== undefined || tie === true) {
+    hitmeBtn.disabled = true;
+    standBtn.disabled = true;
+  }
 }
 
 function aceRule(turn) {
@@ -121,6 +119,19 @@ function aceRule(turn) {
       return false;
     }
   }
+}
+
+function addPlayerHand() {
+  const sum = playerHand.reduce(function (sum, playerCard) {
+    return sum + playerCard.value;
+  }, 0);
+  return sum;
+}
+function addDealerHand() {
+  const sum = dealerHand.reduce(function (sum, dealerCard) {
+    return sum + dealerCard.value;
+  }, 0);
+  return sum;
 }
 
 function checkWin() {
@@ -202,19 +213,6 @@ function renderCard(newCardObj) {
   }
 }
 
-function addPlayerHand() {
-  const sum = playerHand.reduce(function (sum, playerCard) {
-    return sum + playerCard.value;
-  }, 0);
-  return sum;
-}
-function addDealerHand() {
-  const sum = dealerHand.reduce(function (sum, dealerCard) {
-    return sum + dealerCard.value;
-  }, 0);
-  return sum;
-}
-
 function pushNewCard(newCardObj) {
   if (turn === true) {
     playerHand.push(newCardObj);
@@ -237,18 +235,6 @@ function deal() {
   let newCardObj = deck.splice(randomIdx, 1)[0];
   pushNewCard(newCardObj);
   return newCardObj;
-}
-
-function initiateDealer() {
-  turn = undefined;
-  deal();
-  deal();
-  initiatePlayer();
-}
-function initiatePlayer() {
-  turn = true;
-  deal();
-  deal();
 }
 
 function help() {
@@ -278,9 +264,23 @@ function newHand() {
   activateBtns();
   initiateDealer();
 }
+
 function newGame() {
   newHand();
   newDeck();
+}
+
+function initiateDealer() {
+  turn = undefined;
+  deal();
+  deal();
+  initiatePlayer();
+}
+
+function initiatePlayer() {
+  turn = true;
+  deal();
+  deal();
 }
 
 initiateDealer();
